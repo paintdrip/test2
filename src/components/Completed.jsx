@@ -1,17 +1,19 @@
 import React from 'react';
+import TodoItem from './TodoItem';
+import { useSelector } from 'react-redux';
 
 const Completed = () => {
+  const todos = useSelector((state) => state.todo.todos);
+
   return (
     <>
       <h3>Completed</h3>
       <ul id="completed-tasks">
-        <li>
-          <input type="checkbox" checked />
-          <label>See the Doctor</label>
-          <input type="text" />
-          <button class="edit">Edit</button>
-          <button class="delete">Delete</button>
-        </li>
+        {todos?.map((todo) => {
+          if (todo.completed) {
+            return <TodoItem todo={todo} key={todo.id} />;
+          }
+        })}
       </ul>
     </>
   );

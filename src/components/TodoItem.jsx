@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleCompletedTodo } from '../features/todo/todoSlice';
+import { toggleCompletedTodo, removeTodo } from '../features/todo/todoSlice';
 
 const TodoItem = ({ todo }) => {
   const dispatch = useDispatch();
@@ -9,13 +9,19 @@ const TodoItem = ({ todo }) => {
     dispatch(toggleCompletedTodo(id));
   };
 
+  const removeTodoHandler = (id) => {
+    dispatch(removeTodo(id));
+  };
+
   return (
     <li>
       <input type="checkbox" onChange={() => toggleTodoHandler(todo.id)} />
-      <label className={todo.completed ? 'flex' : ''}>{todo.text}</label>
+      <label>{todo.text}</label>
       <input type="text" />
       <button className="edit">Edit</button>
-      <button className="delete">Delete</button>
+      <button onClick={() => removeTodoHandler(todo.id)} className="delete">
+        Delete
+      </button>
     </li>
   );
 };

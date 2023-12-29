@@ -9,16 +9,11 @@ const Todos = () => {
     <>
       <h3>Todo</h3>
       <ul id="incomplete-tasks">
-        {todos?.map((todo) => (
-          <TodoItem todo={todo} key={todo.id} />
-        ))}
-        <li className="editMode">
-          <input type="checkbox" />
-          <label>Go Shopping</label>
-          <input type="text" value="Go Shopping" />
-          <button className="edit">Edit</button>
-          <button className="delete">Delete</button>
-        </li>
+        {todos?.map((todo) => {
+          if (!todo.completed) {
+            return <TodoItem todo={todo} key={todo.id} />;
+          }
+        })}
       </ul>
     </>
   );
