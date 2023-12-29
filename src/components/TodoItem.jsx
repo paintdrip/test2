@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleCompletedTodo, removeTodo } from '../features/todo/todoSlice';
+import { toggleCompletedTodo, removeTodo, editTodo } from '../features/todo/todoSlice';
 
 const TodoItem = ({ todo }) => {
   const dispatch = useDispatch();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState(todo.text);
 
   const toggleTodoHandler = (id) => {
     dispatch(toggleCompletedTodo(id));
@@ -13,12 +15,30 @@ const TodoItem = ({ todo }) => {
     dispatch(removeTodo(id));
   };
 
+  const editTodoHandler = (id) => {
+    if (isEditing) {
+      dispatch(editTodo({ id: todo.id, text: editedText }));
+    }
+    setIsEditing(!isEditing);
+  };
+
+  const handleInputChange = (e) => {
+    setEditedText(e.target.value);
+  };
+
   return (
     <li>
       <input type="checkbox" onChange={() => toggleTodoHandler(todo.id)} />
-      <label>{todo.text}</label>
-      <input type="text" />
-      <button className="edit">Edit</button>
+      {isEditing ? (
+        <>
+          <input className="edit-input" value={editedText} onChange={handleInputChange} />
+        </>
+      ) : (
+        <label>{todo.text}</label>
+      )}
+      <button className="edit" onClick={() => editTodoHandler(todo.id)}>
+        Edit
+      </button>
       <button onClick={() => removeTodoHandler(todo.id)} className="delete">
         Delete
       </button>
