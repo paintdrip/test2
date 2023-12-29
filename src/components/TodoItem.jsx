@@ -28,7 +28,12 @@ const TodoItem = ({ todo }) => {
 
   return (
     <li>
-      <input type="checkbox" onChange={() => toggleTodoHandler(todo.id)} />
+      {todo.completed ? (
+        <input type="checkbox" onChange={() => toggleTodoHandler(todo.id)} checked />
+      ) : (
+        <input type="checkbox" onChange={() => toggleTodoHandler(todo.id)} />
+      )}
+
       {isEditing ? (
         <>
           <input className="edit-input" value={editedText} onChange={handleInputChange} />
